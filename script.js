@@ -169,7 +169,6 @@ const displayController = (function (){
     const boardText = document.querySelector(".board-text");
     const playAgain = document.querySelector('.play-again');
     const restart = document.querySelector('.restartButton');
-
     const scores = document.querySelector('.scores');
 
 
@@ -187,9 +186,11 @@ const displayController = (function (){
 
     restart.addEventListener('click',() =>{
         gameFlow.startGame();
-
+        restart.textContent = 'Restart Game'
 
     })
+
+
 
     function handleTileClick(e){
         const row = e.target.dataset.row;
@@ -253,8 +254,6 @@ const displayController = (function (){
     return {resetEventListeners,renderBoard}
 })();
 
-
-gameFlow.startGame();
 
 
 

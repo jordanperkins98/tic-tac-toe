@@ -83,6 +83,17 @@ button{
 
 }
 
+.startButton{
+    border-radius: 20px;
+    color: dodgerblue;
+    font-weight: 600;
+    background-color: white;
+    border: dodgerblue solid 3px;
+    width: 100px;
+    height: 50px;
+
+}
+
 .scores{
     display: flex;
     flex-direction: column;
@@ -97,6 +108,8 @@ button{
 
 .leftSidebar{
     display: flex;
+    flex-direction: column;
+    gap: 20px;
     width: 10%;
     align-items: center;
     justify-content: center;
@@ -105,6 +118,12 @@ button{
 }
 
 .restartButton:hover{
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+
+.startButton:hover{
     background-color: dodgerblue;
     color: white;
     cursor: pointer;
