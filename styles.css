@@ -12,7 +12,7 @@ html{
     text-align: center;
 }
 
-.container{
+.board-container{
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -39,6 +39,76 @@ html{
 
 }
 
+button{
+    appearance: none;
+    -moz-appearance: none;
+    border: none;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+
+.play-again{
+    border-radius: 20px;
+    color: dodgerblue;
+    font-weight: 600;
+    background-color: white;
+    border: dodgerblue solid 3px;
+    width: 200px;
+    height: 50px;
+    margin-top: 1%;
+
+}
+.play-again:hover{
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+
+.score-title{
+    text-decoration: underline;
+}
+
+
+.restartButton{
+    border-radius: 20px;
+    color: dodgerblue;
+    font-weight: 600;
+    background-color: white;
+    border: dodgerblue solid 3px;
+    width: 100px;
+    height: 50px;
+
+}
+
+.scores{
+    display: flex;
+    flex-direction: column;
+    min-width: 10%;
+    align-items: center;
+}
+
+.main-container{
+    display: flex;
+    justify-content: center;
+}
+
+.leftSidebar{
+    display: flex;
+    width: 10%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    bottom: 200px;
+}
+
+.restartButton:hover{
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
 
 @media screen and (max-width: 650px){
 
@@ -46,4 +116,6 @@ html{
         width: 120px;
         min-height: 120px;
     }
+
+
 }

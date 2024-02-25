@@ -34,10 +34,15 @@ const gameBoard = (function (){
 })();
 
 const gameFlow = ( function (){
+    function player (value){
+        return {value};
+    }
+
     const player1 = player('X');
     const player2 = player('O');
-    let turn = 0;
+    let turn;
     let currentPlayer = player1;
+
 
     const currentGameBoard = gameBoard;
 
@@ -45,11 +50,9 @@ const gameFlow = ( function (){
 
     const switchPlayer = () => {
 
-        const playerText = document.querySelector("#player");
-
         currentPlayer === player1 ? currentPlayer = player2 : currentPlayer = player1;
 
-        playerText.textContent = currentPlayer.value
+
         console.log("Current player: " + currentPlayer.value);
     }
     const play = (row, col) => {
@@ -59,7 +62,7 @@ const gameFlow = ( function (){
 
     const rowCheck = () =>{
         for(let i = 0; i < 3; i++){
-            if (currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][1] && currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][2]) {
+            if (currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][1] && currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][2] && currentGameBoard.getBoard()[i][0] !== "") {
                 console.log(`Winner!: ${currentPlayer.value}`);
                 return 1
             }
@@ -75,7 +78,7 @@ const gameFlow = ( function (){
                 if (currentGameBoard.getBoard()[x][y] !== currentGameBoard.getBoard()[x+1][y]){
                     break;
                 }
-                else if (x === 1){
+                else if (x === 1 && currentGameBoard.getBoard()[x][y] !== ""){
                     console.log(`Winner!: ${currentPlayer.value}`);
                     return 1
                 }
@@ -102,22 +105,23 @@ const gameFlow = ( function (){
 
     }
 
+    const getTurn = ()=> turn;
+
     const endGame = () =>{
         alert(`Winner of the game is: ${currentPlayer.value}`);
-
 
     }
 
     const startGame = () => {
         console.log("Welcome to Tic-Tac-Toe")
-
-        const playerText = document.querySelector("#player");
-        playerText.textContent = currentPlayer.value
+        currentPlayer = player1;
+        turn = 0;
+        gameBoard.resetGameBoard();
         displayController.resetEventListeners();
         displayController.renderBoard();
     }
 
-    return{startGame, getCurrentPlayer, switchPlayer, play, checkWin}
+    return{startGame, getCurrentPlayer, switchPlayer, play, checkWin,getTurn}
 })();
 
 
@@ -126,16 +130,62 @@ const displayController = (function (){
     const board = document.querySelector('.board');
     const tiles = document.querySelectorAll('.tile');
 
+    const playerText = document.querySelector("#player");
+    const boardText = document.querySelector(".board-text");
+    const playAgain = document.querySelector('.play-again');
+    const restart = document.querySelector('.restartButton');
+
+    const scores = document.querySelector('.scores');
+
+
+    const togglePlayAgain = ()=>{
+        playAgain.classList.toggle('hidden');
+        restart.classList.toggle('hidden');
+    }
+
+    playAgain.addEventListener('click',() =>{
+        gameFlow.startGame();
+        boardText.textContent = `Current Player: ${gameFlow.getCurrentPlayer().value}`
+        togglePlayAgain();
+
+    })
+
+    restart.addEventListener('click',() =>{
+        gameFlow.startGame();
+
+
+    })
+
     function handleTileClick(e){
         const row = e.target.dataset.row;
-        const col = e.target.dataset.col
+        const col = e.target.dataset.col;
         gameFlow.play(row,col)
         renderBoard();
         if(gameFlow.checkWin()){
+            boardText.textContent = `Winner is: ${gameFlow.getCurrentPlayer().value}!`
+            const score = document.createElement('div');
+            score.classList.add('score')
+            score.innerHTML =`
+                <p>Winner: ${gameFlow.getCurrentPlayer().value}</p>          
+            `
+            scores.appendChild(score);
             clearEventListeners()
+            togglePlayAgain();
         }
         else {
+            if (gameFlow.getTurn() === 9){
+                togglePlayAgain();
+                boardText.textContent = 'The game ended in a draw!'
+                const score = document.createElement('div');
+                score.classList.add('score')
+                score.innerHTML =`
+                <p>Draw</p>          
+            `
+                scores.appendChild(score);
+
+            }
             gameFlow.switchPlayer();
+            playerText.textContent = gameFlow.getCurrentPlayer().value
         }
 
     }
@@ -155,6 +205,8 @@ const displayController = (function (){
     }
 
     const renderBoard = () =>{
+
+        playerText.textContent = gameFlow.getCurrentPlayer().value;
         const board = gameBoard.getBoard().join().split(",");
 
         for(let tile = 0; tile < 9; tile++){
@@ -166,10 +218,6 @@ const displayController = (function (){
     return {resetEventListeners,renderBoard}
 })();
 
-
-function player (value){
-     return {value};
-}
 
 gameFlow.startGame();
 

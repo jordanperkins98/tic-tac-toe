@@ -11,20 +11,28 @@
 </head>
 <body>
     <h2 class="title">Tic-Tac-Toe</h2>
-    <div class="container">
-        <h4>Current Player: <span id="player"></span></h4>
-        <div class="board">
-            <div class="tile" data-row="1" data-col="1"></div>
-            <div class="tile" data-row="1" data-col="2"></div>
-            <div class="tile" data-row="1" data-col="3"></div>
-            <div class="tile" data-row="2" data-col="1"></div>
-            <div class="tile" data-row="2" data-col="2"></div>
-            <div class="tile" data-row="2" data-col="3"></div>
-            <div class="tile" data-row="3" data-col="1"></div>
-            <div class="tile" data-row="3" data-col="2"></div>
-            <div class="tile" data-row="3" data-col="3"></div>
+    <div class="main-container">
+        <div class="leftSidebar">
+            <button class="restartButton">Restart Game</button>
         </div>
-
+        <div class="board-container">
+            <h4 class="board-text" >Current Player: <span id="player"></span></h4>
+            <div class="board">
+                <div class="tile" data-row="1" data-col="1"></div>
+                <div class="tile" data-row="1" data-col="2"></div>
+                <div class="tile" data-row="1" data-col="3"></div>
+                <div class="tile" data-row="2" data-col="1"></div>
+                <div class="tile" data-row="2" data-col="2"></div>
+                <div class="tile" data-row="2" data-col="3"></div>
+                <div class="tile" data-row="3" data-col="1"></div>
+                <div class="tile" data-row="3" data-col="2"></div>
+                <div class="tile" data-row="3" data-col="3"></div>
+            </div>
+            <button class="play-again hidden">Play Again</button>
+        </div>
+        <div class="scores">
+            <h4 class="score-title">Recent Games</h4>
+        </div>
     </div>
 </body>
 <script src="script.js"></script>
