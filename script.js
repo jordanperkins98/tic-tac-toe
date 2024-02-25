@@ -53,7 +53,7 @@ const gameFlow = ( function (){
     const rowCheck = () =>{
         for(let i = 0; i < 3; i++){
             if (currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][1] && currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][2]) {
-                console.log(`Winner!: ${currentPlayer}`);
+                console.log(`Winner!: ${currentPlayer.value}`);
                 return 1
             }
         }
@@ -69,7 +69,7 @@ const gameFlow = ( function (){
                     break;
                 }
                 else if (x === 1){
-                    console.log(`Winner!: ${currentPlayer}`);
+                    console.log(`Winner!: ${currentPlayer.value}`);
                     return 1
                 }
             }
@@ -81,11 +81,12 @@ const gameFlow = ( function (){
         let rowWin, colWin;
 
         if (turn >= 5){
-          const rowWin = rowCheck();
-          const colWin = columnCheck();
+           rowWin = rowCheck();
+           colWin = columnCheck();
         }
 
         if (rowWin+colWin > 0){
+            console.log(`rowWin: ${rowWin}  colWin: ${colWin}`)
             return 1;
         }
         return 0
@@ -93,16 +94,16 @@ const gameFlow = ( function (){
     }
 
     const endGame = () =>{
-        console.log(`Winner is: ${currentPlayer}`);
+        console.log(`Winner of the game is: ${currentPlayer.value}`);
+        console.log(gameBoard.getBoard());
+
     }
 
     const startGame = () => {
         console.log("Welcome to Tic-Tac-Toe")
         for (let i = 0; i <= 9; i++){
-            const input = prompt(`${currentPlayer.value} where would you like to play? row column`)
-            const inputArr = input.split(" ");
             play(inputArr[0], inputArr[1]);
-            if (checkWin() === 1) {
+            if (checkWin()) {
                 endGame();
                 break;
             }
@@ -111,11 +112,23 @@ const gameFlow = ( function (){
         }
     }
 
-
-    return{checkWin, startGame}
-
-
+    return{startGame, currentPlayer, switchPlayer}
 })();
+
+
+
+const displayController = (function (){
+    const board = document.querySelector('.board');
+    const tiles = document.querySelectorAll('.tile');
+
+    console.log(tiles)
+    tiles.forEach((element) =>element.addEventListener('click', (e)=>{
+        console.log(gameFlow.currentPlayer.value)
+        gameFlow.switchPlayer();
+    }) )
+    return {board}
+})();
+
 
 function player (value){
      return {value};
