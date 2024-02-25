@@ -31,7 +31,8 @@ html{
 .tile{
     display: flex;
     justify-content: center;
-    font-size: 32px;
+    align-items: center;
+    font-size: 42px;
     border: black solid 1px;
     width: 200px;
     min-height: 200px;

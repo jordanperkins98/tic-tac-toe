@@ -41,8 +41,15 @@ const gameFlow = ( function (){
 
     const currentGameBoard = gameBoard;
 
+    const getCurrentPlayer = () => currentPlayer
+
     const switchPlayer = () => {
+
+        const playerText = document.querySelector("#player");
+
         currentPlayer === player1 ? currentPlayer = player2 : currentPlayer = player1;
+
+        playerText.textContent = currentPlayer.value
         console.log("Current player: " + currentPlayer.value);
     }
     const play = (row, col) => {
@@ -74,6 +81,7 @@ const gameFlow = ( function (){
                 }
             }
         }
+
         return 0
     }
 
@@ -87,32 +95,29 @@ const gameFlow = ( function (){
 
         if (rowWin+colWin > 0){
             console.log(`rowWin: ${rowWin}  colWin: ${colWin}`)
-            return 1;
+            endGame();
+            return true
         }
-        return 0
+        return false
 
     }
 
     const endGame = () =>{
-        console.log(`Winner of the game is: ${currentPlayer.value}`);
-        console.log(gameBoard.getBoard());
+        alert(`Winner of the game is: ${currentPlayer.value}`);
+
 
     }
 
     const startGame = () => {
         console.log("Welcome to Tic-Tac-Toe")
-        for (let i = 0; i <= 9; i++){
-            play(inputArr[0], inputArr[1]);
-            if (checkWin()) {
-                endGame();
-                break;
-            }
-            console.log(gameBoard.getBoard());
-            switchPlayer();
-        }
+
+        const playerText = document.querySelector("#player");
+        playerText.textContent = currentPlayer.value
+        displayController.resetEventListeners();
+        displayController.renderBoard();
     }
 
-    return{startGame, currentPlayer, switchPlayer}
+    return{startGame, getCurrentPlayer, switchPlayer, play, checkWin}
 })();
 
 
@@ -121,12 +126,44 @@ const displayController = (function (){
     const board = document.querySelector('.board');
     const tiles = document.querySelectorAll('.tile');
 
-    console.log(tiles)
-    tiles.forEach((element) =>element.addEventListener('click', (e)=>{
-        console.log(gameFlow.currentPlayer.value)
-        gameFlow.switchPlayer();
-    }) )
-    return {board}
+    function handleTileClick(e){
+        const row = e.target.dataset.row;
+        const col = e.target.dataset.col
+        gameFlow.play(row,col)
+        renderBoard();
+        if(gameFlow.checkWin()){
+            clearEventListeners()
+        }
+        else {
+            gameFlow.switchPlayer();
+        }
+
+    }
+
+
+    const resetEventListeners = () => {
+        tiles.forEach((element) => {
+            element.addEventListener('click', handleTileClick,{once:true})
+        })
+    }
+
+    const clearEventListeners = ()=>{
+        tiles.forEach((element) => {
+            element.removeEventListener('click', handleTileClick)
+        })
+
+    }
+
+    const renderBoard = () =>{
+        const board = gameBoard.getBoard().join().split(",");
+
+        for(let tile = 0; tile < 9; tile++){
+            tiles[tile].textContent = board[tile]
+        }
+
+    }
+
+    return {resetEventListeners,renderBoard}
 })();
 
 
