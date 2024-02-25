@@ -61,10 +61,45 @@ const gameFlow = ( function (){
     }
 
     const rowCheck = () =>{
+        const diag1= [];
+        const diag2= [];
+
         for(let i = 0; i < 3; i++){
-            if (currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][1] && currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][2] && currentGameBoard.getBoard()[i][0] !== "") {
+            if (i === 0){
+                diag1.push(currentGameBoard.getBoard()[i][0])
+                diag2.push(currentGameBoard.getBoard()[i][2])
+            }
+            else if (i === 1){
+                diag1.push(currentGameBoard.getBoard()[i][1])
+                diag2.push(currentGameBoard.getBoard()[i][1])
+            }
+            else if (i === 2){
+                diag1.push(currentGameBoard.getBoard()[i][2])
+                diag2.push(currentGameBoard.getBoard()[i][0])
+            }
+
+
+            if ((currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][1] &&
+                currentGameBoard.getBoard()[i][0] === currentGameBoard.getBoard()[i][2] &&
+                currentGameBoard.getBoard()[i][0] !== "")) {
                 console.log(`Winner!: ${currentPlayer.value}`);
                 return 1
+            }
+
+            if (i === 2){
+                for (let x = 0; x<3; x++){
+                    if (diag1[x] !== diag1[x+1])
+                        break
+                    else if (x === 1 && diag1[x] !== "")
+                        return 1
+                }
+
+                for (let x = 0; x<3; x++){
+                    if (diag2[x] !== diag2[x+1])
+                        break
+                    else if (x === 1 && diag2[x] !== "")
+                        return 1
+                }
             }
         }
         return 0
@@ -108,7 +143,7 @@ const gameFlow = ( function (){
     const getTurn = ()=> turn;
 
     const endGame = () =>{
-        alert(`Winner of the game is: ${currentPlayer.value}`);
+
 
     }
 
