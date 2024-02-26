@@ -13,7 +13,19 @@
     <h2 class="title">Tic-Tac-Toe</h2>
     <div class="main-container">
         <div class="leftSidebar">
-            <button class="restartButton">Start Game</button>
+            <button class="restartButton hidden">Restart Game</button>
+            <form>
+                <div class="form-group">
+                    <label for="player1">Player 1 Name</label>
+                    <input type="text" id="player1" name="player1">
+                </div>
+                <div class="form-group">
+                    <label for="player2">Player 2 Name</label>
+                    <input type="text" id="player2" name="player2">
+                </div>
+                <input type="submit" class="submit" value="Start Game">
+            </form>
+
         </div>
         <div class="board-container">
             <h4 class="board-text" >Current Player: <span id="player"></span></h4>

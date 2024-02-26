@@ -109,7 +109,6 @@ button{
 .leftSidebar{
     display: flex;
     flex-direction: column;
-    gap: 20px;
     width: 10%;
     align-items: center;
     justify-content: center;
@@ -124,6 +123,40 @@ button{
 }
 
 .startButton:hover{
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-right: 20px;
+}
+
+.form-group{
+
+}
+
+input[type="text"]{
+    width: 100%;
+
+}
+
+input[type="submit"]{
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+    color: dodgerblue;
+    font-weight: 600;
+    background-color: white;
+    border: dodgerblue solid 3px;
+    height: 30px;
+}
+
+input[type="submit"]:hover{
     background-color: dodgerblue;
     color: white;
     cursor: pointer;

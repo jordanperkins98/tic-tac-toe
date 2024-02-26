@@ -34,15 +34,12 @@ const gameBoard = (function (){
 })();
 
 const gameFlow = ( function (){
-    function player (value){
-        return {value};
-    }
 
-    const player1 = player('X');
-    const player2 = player('O');
+
+    let player1;
+    let player2;
     let turn;
-    let currentPlayer = player1;
-
+    let currentPlayer;
 
     const currentGameBoard = gameBoard;
 
@@ -51,9 +48,7 @@ const gameFlow = ( function (){
     const switchPlayer = () => {
 
         currentPlayer === player1 ? currentPlayer = player2 : currentPlayer = player1;
-
-
-        console.log("Current player: " + currentPlayer.value);
+        console.log("Current player: " + currentPlayer.name);
     }
     const play = (row, col) => {
         currentGameBoard.setBoard(row, col, currentPlayer);
@@ -147,9 +142,12 @@ const gameFlow = ( function (){
 
     }
 
-    const startGame = () => {
+    const startGame = (playerx,playero) => {
         console.log("Welcome to Tic-Tac-Toe")
+        player1 = playerx;
+        player2 = playero;
         currentPlayer = player1;
+
         turn = 0;
         gameBoard.resetGameBoard();
         displayController.resetEventListeners();
@@ -170,25 +168,42 @@ const displayController = (function (){
     const playAgain = document.querySelector('.play-again');
     const restart = document.querySelector('.restartButton');
     const scores = document.querySelector('.scores');
+    const form = document.querySelector('form');
+    const submitButton = document.querySelector('.submit');
 
-
+    let player1;
+    let player2;
     const togglePlayAgain = ()=>{
         playAgain.classList.toggle('hidden');
         restart.classList.toggle('hidden');
     }
 
     playAgain.addEventListener('click',() =>{
-        gameFlow.startGame();
-        boardText.textContent = `Current Player: ${gameFlow.getCurrentPlayer().value}`
+        console.log("Play Again")
+        gameFlow.startGame(player1,player2);
+        boardText.textContent = `Current Player: ${gameFlow.getCurrentPlayer().name}`
         togglePlayAgain();
 
     })
 
     restart.addEventListener('click',() =>{
-        gameFlow.startGame();
-        restart.textContent = 'Restart Game'
-
+        gameFlow.startGame(player1,player2);
     })
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+    });
+
+    submitButton.addEventListener('click', () => {
+        player1 = player(document.querySelector('#player1').value,'X');
+        player2 = player(document.querySelector('#player2').value,'O');
+
+
+        gameFlow.startGame(player1,player2);
+        form.classList.toggle('hidden');
+        restart.classList.toggle('hidden');
+    });
+
 
 
 
@@ -198,11 +213,11 @@ const displayController = (function (){
         gameFlow.play(row,col)
         renderBoard();
         if(gameFlow.checkWin()){
-            boardText.textContent = `Winner is: ${gameFlow.getCurrentPlayer().value}!`
+            boardText.textContent = `Winner is: ${gameFlow.getCurrentPlayer().name}!`
             const score = document.createElement('div');
             score.classList.add('score')
             score.innerHTML =`
-                <p>Winner: ${gameFlow.getCurrentPlayer().value}</p>          
+                <p>Winner: ${gameFlow.getCurrentPlayer().name}</p>          
             `
             scores.appendChild(score);
             clearEventListeners()
@@ -221,7 +236,7 @@ const displayController = (function (){
 
             }
             gameFlow.switchPlayer();
-            playerText.textContent = gameFlow.getCurrentPlayer().value
+            playerText.textContent = gameFlow.getCurrentPlayer().name
         }
 
     }
@@ -242,7 +257,7 @@ const displayController = (function (){
 
     const renderBoard = () =>{
 
-        playerText.textContent = gameFlow.getCurrentPlayer().value;
+        playerText.textContent = gameFlow.getCurrentPlayer().name;
         const board = gameBoard.getBoard().join().split(",");
 
         for(let tile = 0; tile < 9; tile++){
@@ -254,6 +269,9 @@ const displayController = (function (){
     return {resetEventListeners,renderBoard}
 })();
 
+function player (name,value){
+    return {name,value};
+}
 
 
 
