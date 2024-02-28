@@ -200,6 +200,15 @@ const displayController = (function (){
 
 
         gameFlow.startGame(player1,player2);
+
+
+
+        document.querySelector('.scores').classList.toggle('hidden')
+
+        document.querySelector('.player1-name').textContent = player1.name
+        document.querySelector('.player2-name').textContent = player2.name
+
+
         form.classList.toggle('hidden');
         restart.classList.toggle('hidden');
     });
