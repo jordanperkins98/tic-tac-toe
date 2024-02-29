@@ -173,6 +173,11 @@ const displayController = (function (){
 
     let player1;
     let player2;
+
+
+    let ties = 0;
+
+
     const togglePlayAgain = ()=>{
         playAgain.classList.toggle('hidden');
         restart.classList.toggle('hidden');
@@ -187,6 +192,11 @@ const displayController = (function (){
     })
 
     restart.addEventListener('click',() =>{
+
+        document.querySelector('.player1-score').textContent = String(0);
+        document.querySelector('.player2-score').textContent = String(0);
+        document.querySelector('.tie').textContent = String(0);
+
         gameFlow.startGame(player1,player2);
     })
 
@@ -197,6 +207,10 @@ const displayController = (function (){
     submitButton.addEventListener('click', () => {
         player1 = player(document.querySelector('#player1').value,'X');
         player2 = player(document.querySelector('#player2').value,'O');
+
+
+        document.querySelector('.player1-score').classList.add(`${player1.name}`)
+        document.querySelector('.player2-score').classList.add(`${player2.name}`)
 
 
         gameFlow.startGame(player1,player2);
@@ -223,12 +237,12 @@ const displayController = (function (){
         renderBoard();
         if(gameFlow.checkWin()){
             boardText.textContent = `Winner is: ${gameFlow.getCurrentPlayer().name}!`
-            const score = document.createElement('div');
-            score.classList.add('score')
-            score.innerHTML =`
-                <p>Winner: ${gameFlow.getCurrentPlayer().name}</p>          
-            `
-            scores.appendChild(score);
+
+            gameFlow.getCurrentPlayer().incrementScore();
+
+            document.querySelector(`.${gameFlow.getCurrentPlayer().name}`).textContent = String(gameFlow.getCurrentPlayer().getScore());
+
+
             clearEventListeners()
             togglePlayAgain();
         }
@@ -236,12 +250,8 @@ const displayController = (function (){
             if (gameFlow.getTurn() === 9){
                 togglePlayAgain();
                 boardText.textContent = 'The game ended in a draw!'
-                const score = document.createElement('div');
-                score.classList.add('score')
-                score.innerHTML =`
-                <p>Draw</p>          
-            `
-                scores.appendChild(score);
+                ties++;
+                document.querySelector('.tie').textContent = String(ties)
 
             }
             gameFlow.switchPlayer();
@@ -279,7 +289,12 @@ const displayController = (function (){
 })();
 
 function player (name,value){
-    return {name,value};
+    let score = 0;
+
+    const getScore = () => score;
+    const incrementScore = () => score++;
+
+    return {name,value,incrementScore,getScore};
 }
 
 

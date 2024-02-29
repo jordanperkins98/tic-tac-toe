@@ -99,7 +99,7 @@ button{
 .scores{
     display: flex;
     flex-direction: column;
-    min-width: 10%;
+    min-width: 8%;
     margin-left: 5px;
     margin-top: 64px;
     gap: 80px;
@@ -115,6 +115,7 @@ button{
     border-radius: 20px;
     margin-top: 20px;
     color: black;
+    border: black solid 1px;
 }
 
 .player1{
@@ -147,7 +148,7 @@ button{
 .leftSidebar{
     display: flex;
     flex-direction: column;
-    width: 10%;
+    width: 8%;
     align-items: center;
     justify-content: center;
     position: relative;
